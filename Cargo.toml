@@ -1,0 +1,45 @@
+[package]
+name = "aixm"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+quick-xml = { version = "0.37.2", features = ["serialize"] }
+serde = { version = "1.0.218", features = ["derive"] }
+
+[features]
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+style = { level = "warn", priority = -1 }
+cargo = { level = "allow", priority = -1 }
+perf = { level = "warn", priority = -1 }
+
+let-underscore-must-use = "warn"
+print_stderr = "warn"
+print_stdout = "warn"
+
+# prefer expect to allow
+allow_attributes = "warn"
+allow_attributes_without_reason = "warn"
+
+string_to_string = "warn"
+
+undocumented_unsafe_blocks = "warn"
+
+too_long_first_doc_paragraph = "warn"
+
+[lints.rust]
+# TODO
+missing_docs = "allow"
+unexpected_cfgs = { level = "warn" }
+unsafe_code = "deny"
+unsafe_op_in_unsafe_fn = "warn"
+unused_qualifications = "warn"
