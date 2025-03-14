@@ -146,14 +146,18 @@ pub struct AixmArp {
     pub aixm_elevated_point: AixmElevatedPoint,
 }
 
-// FIXME: enum?
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmLocation {
-    #[serde(rename = "ElevatedPoint")]
-    pub aixm_elevated_point: Option<AixmElevatedPoint>,
-    #[serde(rename = "Point")]
-    pub aixm_point: Option<AixmPoint>,
+    #[serde(rename = "$value")]
+    location: LocationType,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub enum LocationType {
+    ElevatedPoint(Box<AixmElevatedPoint>),
+    Point(Box<AixmPoint>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2256,33 +2260,33 @@ pub struct MessageHasMember {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum Member {
-    AirportHeliport(AixmAirportHeliport),
-    AirportHeliportCollocation(AixmAirportHeliportCollocation),
-    AngleIndication(AixmAngleIndication),
-    DesignatedPoint(AixmDesignatedPoint),
-    DistanceIndication(AixmDistanceIndication),
+    AirportHeliport(Box<AixmAirportHeliport>),
+    AirportHeliportCollocation(Box<AixmAirportHeliportCollocation>),
+    AngleIndication(Box<AixmAngleIndication>),
+    DesignatedPoint(Box<AixmDesignatedPoint>),
+    DistanceIndication(Box<AixmDistanceIndication>),
     #[serde(rename = "DME")]
-    Dme(AixmDme),
-    Glidepath(AixmGlidepath),
-    Localizer(AixmLocalizer),
-    MarkerBeacon(AixmMarkerBeacon),
+    Dme(Box<AixmDme>),
+    Glidepath(Box<AixmGlidepath>),
+    Localizer(Box<AixmLocalizer>),
+    MarkerBeacon(Box<AixmMarkerBeacon>),
     #[serde(rename = "NDB")]
-    Ndb(AixmNdb),
-    Navaid(AixmNavaid),
-    RadioFrequencyArea(AixmRadioFrequencyArea),
-    Route(AixmRoute),
-    RouteSegment(AixmRouteSegment),
-    Runway(AixmRunway),
-    RunwayCentrelinePoint(AixmRunwayCentrelinePoint),
-    RunwayDirection(AixmRunwayDirection),
-    RunwayProtectArea(AixmRunwayProtectArea),
-    StandardLevelColumn(AixmStandardLevelColumn),
-    StandardLevelTable(AixmStandardLevelTable),
+    Ndb(Box<AixmNdb>),
+    Navaid(Box<AixmNavaid>),
+    RadioFrequencyArea(Box<AixmRadioFrequencyArea>),
+    Route(Box<AixmRoute>),
+    RouteSegment(Box<AixmRouteSegment>),
+    Runway(Box<AixmRunway>),
+    RunwayCentrelinePoint(Box<AixmRunwayCentrelinePoint>),
+    RunwayDirection(Box<AixmRunwayDirection>),
+    RunwayProtectArea(Box<AixmRunwayProtectArea>),
+    StandardLevelColumn(Box<AixmStandardLevelColumn>),
+    StandardLevelTable(Box<AixmStandardLevelTable>),
     #[serde(rename = "TACAN")]
-    Tacan(AixmTacan),
-    VisualGlideSlopeIndicator(AixmVisualGlideSlopeIndicator),
+    Tacan(Box<AixmTacan>),
+    VisualGlideSlopeIndicator(Box<AixmVisualGlideSlopeIndicator>),
     #[serde(rename = "VOR")]
-    Vor(AixmVor),
+    Vor(Box<AixmVor>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
