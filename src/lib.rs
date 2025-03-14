@@ -150,7 +150,7 @@ pub struct AixmArp {
 #[serde(deny_unknown_fields)]
 pub struct AixmLocation {
     #[serde(rename = "$value")]
-    location: LocationType,
+    pub location: LocationType,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
