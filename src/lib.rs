@@ -635,7 +635,7 @@ pub struct AixmGhostFrequency {
     #[serde(rename = "@uom")]
     pub uom: Option<String>,
     #[serde(rename = "$text")]
-    pub text: Option<f32>,
+    pub value: Option<f32>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -666,7 +666,7 @@ pub struct AixmFrequency {
     #[serde(rename = "@uom")]
     pub uom: String,
     #[serde(rename = "$text")]
-    pub text: String,
+    pub value: f32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
