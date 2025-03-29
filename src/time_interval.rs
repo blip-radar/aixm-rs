@@ -27,152 +27,45 @@ pub struct AixmTimesheet {
     #[serde(rename = "day")]
     pub aixm_day: String,
     #[serde(rename = "dayTil")]
-    pub aixm_day_til: Option<AixmDayTil>,
+    pub aixm_day_til: Option<String>,
     #[serde(rename = "startTime")]
-    pub aixm_start_time: AixmStartTime,
+    pub aixm_start_time: Option<String>,
     #[serde(rename = "startEvent")]
-    pub aixm_start_event: Option<AixmStartEvent>,
+    pub aixm_start_event: Option<String>,
     #[serde(rename = "startTimeRelativeEvent")]
     pub aixm_start_time_relative_event: Option<AixmStartTimeRelativeEvent>,
     #[serde(rename = "startEventInterpretation")]
-    pub aixm_start_event_interpretation: Option<AixmStartEventInterpretation>,
+    pub aixm_start_event_interpretation: Option<String>,
     #[serde(rename = "endTime")]
-    pub aixm_end_time: AixmEndTime,
+    pub aixm_end_time: Option<String>,
     #[serde(rename = "endEvent")]
-    pub aixm_end_event: Option<AixmEndEvent>,
+    pub aixm_end_event: Option<String>,
     #[serde(rename = "endTimeRelativeEvent")]
     pub aixm_end_time_relative_event: Option<AixmEndTimeRelativeEvent>,
     #[serde(rename = "endEventInterpretation")]
-    pub aixm_end_event_interpretation: Option<AixmEndEventInterpretation>,
+    pub aixm_end_event_interpretation: Option<String>,
     #[serde(rename = "daylightSavingAdjust")]
-    pub aixm_daylight_saving_adjust: Option<AixmDaylightSavingAdjust>,
+    pub aixm_daylight_saving_adjust: Option<String>,
     #[serde(rename = "excluded")]
-    pub aixm_excluded: Option<AixmExcluded>,
+    pub aixm_excluded: Option<String>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmDayTil {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmStartTime {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmStartEvent {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmStartTimeRelativeEvent {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmStartEventInterpretation {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmEndTime {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmEndEvent {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmEndTimeRelativeEvent {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmEndEventInterpretation {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmDaylightSavingAdjust {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmExcluded {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: i32,
 }

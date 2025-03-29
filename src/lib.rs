@@ -2,17 +2,12 @@
 use annotation::AixmAnnotation;
 use gmd::GmdMdMetadata;
 use gml::{GmlIdentifier, GmlSegments, GmlTimePeriod, GmlValidTime};
-use magnetic_variation::{
-    AixmDateMagneticVariation, AixmMagneticVariation, AixmMagneticVariationAccuracy,
-    AixmMagneticVariationChange,
-};
 use serde::{Deserialize, Serialize};
 use time_interval::AixmTimeInterval;
 
 mod annotation;
 mod gmd;
 mod gml;
-mod magnetic_variation;
 mod time_interval;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -64,79 +59,38 @@ pub struct AixmFeatureLifetime {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmEmissionClass {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMobile {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmReferenceTemperature {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
     #[serde(rename = "@uom")]
     pub uom: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmTransitionAltitude {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmTransitionLevel {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    #[serde(rename = "@uom")]
+    pub uom: String,
+    #[serde(rename = "$text")]
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmLowestTemperature {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmFlightChecked {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -170,7 +124,7 @@ pub struct AixmPoint {
     #[serde(rename = "pos")]
     pub gml_pos: String,
     #[serde(rename = "horizontalAccuracy")]
-    pub aixm_horizontal_accuracy: AixmHorizontalAccuracy,
+    pub aixm_horizontal_accuracy: Option<AixmHorizontalAccuracy>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -183,109 +137,56 @@ pub struct AixmElevatedPoint {
     #[serde(rename = "pos")]
     pub gml_pos: String,
     #[serde(rename = "horizontalAccuracy")]
-    pub aixm_horizontal_accuracy: AixmHorizontalAccuracy,
+    pub aixm_horizontal_accuracy: Option<AixmHorizontalAccuracy>,
     #[serde(rename = "elevation")]
-    pub aixm_elevation: AixmElevation,
+    pub aixm_elevation: Option<AixmElevation>,
     #[serde(rename = "geoidUndulation")]
-    pub aixm_geoid_undulation: AixmGeoidUndulation,
+    pub aixm_geoid_undulation: Option<AixmGeoidUndulation>,
     #[serde(rename = "verticalDatum")]
-    pub aixm_vertical_datum: AixmVerticalDatum,
+    pub aixm_vertical_datum: Option<String>,
     #[serde(rename = "verticalAccuracy")]
-    pub aixm_vertical_accuracy: AixmVerticalAccuracy,
+    pub aixm_vertical_accuracy: Option<AixmVerticalAccuracy>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmHorizontalAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmElevation {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmGeoidUndulation {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmVerticalDatum {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmVerticalAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmCertificationDate {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmCertificationExpirationDate {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmResponsibleOrganisation {
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "AirportHeliportResponsibilityOrganisation")]
     pub aixm_airport_heliport_responsibility_organisation:
         Option<AixmAirportHeliportResponsibilityOrganisation>,
@@ -296,21 +197,10 @@ pub struct AixmResponsibleOrganisation {
 pub struct AixmAirportHeliportResponsibilityOrganisation {
     #[serde(rename = "@id")]
     pub gml_id: String,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
     #[serde(rename = "role")]
-    pub aixm_role: AixmRole,
+    pub aixm_role: Option<String>,
     #[serde(rename = "theOrganisationAuthority")]
     pub aixm_the_organisation_authority: AixmTheOrganisationAuthority,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmRole {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -342,13 +232,13 @@ pub struct AixmContactInformation {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "name")]
-    pub aixm_name: AixmName,
-    #[serde(rename = "address")]
-    pub aixm_address: Option<Vec<AixmAddress>>,
+    pub aixm_name: Option<String>,
+    #[serde(rename = "address", default)]
+    pub aixm_address: Vec<AixmAddress>,
     #[serde(rename = "phoneFax")]
     pub aixm_phone_fax: Option<AixmPhoneFax>,
-    #[serde(rename = "networkNode")]
-    pub aixm_network_node: Option<Vec<AixmNetworkNode>>,
+    #[serde(rename = "networkNode", default)]
+    pub aixm_network_node: Vec<AixmNetworkNode>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -366,38 +256,11 @@ pub struct AixmPostalAddress {
     #[serde(rename = "deliveryPoint")]
     pub aixm_delivery_point: String,
     #[serde(rename = "city")]
-    pub aixm_city: AixmCity,
+    pub aixm_city: Option<String>,
     #[serde(rename = "postalCode")]
-    pub aixm_postal_code: AixmPostalCode,
+    pub aixm_postal_code: Option<String>,
     #[serde(rename = "country")]
-    pub aixm_country: AixmCountry,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmCity {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPostalCode {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmCountry {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub aixm_country: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -431,31 +294,9 @@ pub struct AixmOnlineContact {
     #[serde(rename = "network")]
     pub aixm_network: String,
     #[serde(rename = "linkage")]
-    pub aixm_linkage: AixmLinkage,
+    pub aixm_linkage: Option<String>,
     #[serde(rename = "eMail")]
-    pub aixm_e_mail: AixmEMail,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmLinkage {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmEMail {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub aixm_e_mail: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -503,33 +344,13 @@ pub struct AixmAirportHeliportAvailability {
     #[serde(rename = "timeInterval")]
     pub aixm_time_interval: Vec<AixmTimeInterval>,
     #[serde(rename = "operationalStatus")]
-    pub aixm_operational_status: AixmOperationalStatus,
+    pub aixm_operational_status: Option<String>,
     #[serde(rename = "warning")]
-    pub aixm_warning: AixmWarning,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
-    #[serde(rename = "usage")]
-    pub aixm_usage: Option<Vec<AixmUsage>>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmOperationalStatus {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWarning {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
+    pub aixm_warning: Option<String>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
+    #[serde(rename = "usage", default)]
+    pub aixm_usage: Vec<AixmUsage>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -538,7 +359,7 @@ pub struct AixmNavaidOperationalStatus {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "timeInterval")]
-    pub aixm_time_interval: AixmTimeInterval,
+    pub aixm_time_interval: Option<AixmTimeInterval>,
     #[serde(rename = "operationalStatus")]
     pub aixm_operational_status: String,
 }
@@ -600,64 +421,18 @@ pub struct AixmFlightCharacteristic {
     #[serde(rename = "military")]
     pub aixm_military: String,
     #[serde(rename = "origin")]
-    pub aixm_origin: AixmOrigin,
+    pub aixm_origin: Option<String>,
     #[serde(rename = "purpose")]
-    pub aixm_purpose: AixmPurpose,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmOrigin {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmType {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub aixm_purpose: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmGhostFrequency {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub value: Option<f32>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmDisplace {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-    #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmName {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -666,185 +441,16 @@ pub struct AixmFrequency {
     #[serde(rename = "@uom")]
     pub uom: String,
     #[serde(rename = "$text")]
-    pub value: f32,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmAngleAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmRdh {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmRdhAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMagneticBearingAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmTrueBearingAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmDeclination {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthCourse {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthCourseAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmBackCourseUsable {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmClass {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmAxisBearing {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmEmissionBand {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPurpose {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmSignalPerformance {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmCourseQuality {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmIntegrityLevel {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmCollocationGroup {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmProvidesNavigableLocation {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -867,24 +473,13 @@ pub struct AixmNavaidComponent {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "collocationGroup")]
-    pub aixm_collocation_group: Option<AixmCollocationGroup>,
+    pub aixm_collocation_group: Option<String>,
     #[serde(rename = "providesNavigableLocation")]
-    pub aixm_provides_navigable_location: AixmProvidesNavigableLocation,
+    pub aixm_provides_navigable_location: Option<String>,
     #[serde(rename = "theNavaidEquipment")]
     pub aixm_the_navaid_equipment: AixmTheNavaidEquipment,
     #[serde(rename = "markerPosition")]
-    pub aixm_marker_position: Option<AixmMarkerPosition>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMarkerPosition {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub aixm_marker_position: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -907,15 +502,6 @@ pub struct AixmServedAirport {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmAngleScallop {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmEquipmentNavaidEquipment {
     #[serde(rename = "@href")]
     pub xlink_href: String,
@@ -934,179 +520,74 @@ pub struct AixmCircleSector {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "arcDirection")]
-    pub aixm_arc_direction: AixmArcDirection,
+    pub aixm_arc_direction: Option<String>,
     #[serde(rename = "fromAngle")]
     pub aixm_from_angle: String,
     #[serde(rename = "toAngle")]
     pub aixm_to_angle: String,
     #[serde(rename = "angleType")]
-    pub aixm_angle_type: AixmAngleType,
+    pub aixm_angle_type: Option<String>,
     #[serde(rename = "angleDirectionReference")]
-    pub aixm_angle_direction_reference: AixmAngleDirectionReference,
+    pub aixm_angle_direction_reference: Option<String>,
     #[serde(rename = "innerDistance")]
-    pub aixm_inner_distance: AixmInnerDistance,
+    pub aixm_inner_distance: Option<AixmInnerDistance>,
     #[serde(rename = "outerDistance")]
-    pub aixm_outer_distance: AixmOuterDistance,
+    pub aixm_outer_distance: Option<AixmOuterDistance>,
     #[serde(rename = "upperLimit")]
-    pub aixm_upper_limit: AixmUpperLimit,
+    pub aixm_upper_limit: Option<AixmUpperLimit>,
     #[serde(rename = "upperLimitReference")]
-    pub aixm_upper_limit_reference: AixmUpperLimitReference,
+    pub aixm_upper_limit_reference: Option<String>,
     #[serde(rename = "lowerLimit")]
-    pub aixm_lower_limit: AixmLowerLimit,
+    pub aixm_lower_limit: Option<AixmLowerLimit>,
     #[serde(rename = "lowerLimitReference")]
-    pub aixm_lower_limit_reference: AixmLowerLimitReference,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmArcDirection {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmAngleType {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmAngleDirectionReference {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub aixm_lower_limit_reference: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmInnerDistance {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmOuterDistance {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmUpperLimit {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmUpperLimitReference {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmLowerLimit {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmLowerLimitReference {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct AixmIndicationDirection {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct AixmTrueAngle {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct AixmCardinalDirection {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct AixmMinimumReceptionAltitude {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct AixmFix {
     #[serde(rename = "@href")]
     pub xlink_href: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct AixmPointChoiceNavaidSystem {
     #[serde(rename = "@href")]
     pub xlink_href: String,
@@ -1115,6 +596,7 @@ pub struct AixmPointChoiceNavaidSystem {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct AixmAirportHeliportLink {
     #[serde(rename = "@href")]
     pub xlink_href: String,
@@ -1123,57 +605,26 @@ pub struct AixmAirportHeliportLink {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct AixmDistance {
     #[serde(rename = "@uom")]
     pub uom: String,
     #[serde(rename = "$text")]
-    pub text: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmLocationIndicatorIcao {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmDesignatorIata {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmControlType {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmFieldElevation {
+    // DFS includes data with xsi:nil="false"
     #[serde(rename = "@nil")]
     pub xsi_nil: Option<String>,
-    #[serde(rename = "@uom")]
-    pub uom: String,
     #[serde(rename = "@nilReason")]
     pub nil_reason: Option<String>,
+    #[serde(rename = "@uom")]
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1196,247 +647,20 @@ pub struct AixmDependentAirport {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmDesignatorPrefix {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMultipleIdentifier {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmFlightRule {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmInternationalUse {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMilitaryUse {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMilitaryTrainingType {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMinimumObstacleClearanceAltitude {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPathType {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmTrueTrack {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMagneticTrack {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmReverseTrueTrack {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmReverseMagneticTrack {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmLength {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmWidth {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthLeft {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthRight {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmTurnDirection {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmSignalGap {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMinimumEnrouteAltitude {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMinimumCrossingAtEnd {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMinimumCrossingAtEndReference {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMaximumCrossingAtEnd {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMaximumCrossingAtEndReference {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmRequiredNavigationPerformance {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmDesignatorSuffix {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1559,7 +783,7 @@ pub struct AixmRouteAvailability {
     #[serde(rename = "direction")]
     pub aixm_direction: String,
     #[serde(rename = "cardinalDirection")]
-    pub aixm_cardinal_direction: AixmCardinalDirection,
+    pub aixm_cardinal_direction: Option<String>,
     #[serde(rename = "status")]
     pub aixm_status: String,
     #[serde(rename = "levels")]
@@ -1579,26 +803,17 @@ pub struct AixmAirspaceLayer {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "upperLimit")]
-    pub aixm_upper_limit: AixmUpperLimit,
+    pub aixm_upper_limit: Option<AixmUpperLimit>,
     #[serde(rename = "upperLimitReference")]
-    pub aixm_upper_limit_reference: AixmUpperLimitReference,
+    pub aixm_upper_limit_reference: Option<String>,
     #[serde(rename = "lowerLimit")]
-    pub aixm_lower_limit: AixmLowerLimit,
+    pub aixm_lower_limit: Option<AixmLowerLimit>,
     #[serde(rename = "lowerLimitReference")]
-    pub aixm_lower_limit_reference: String,
+    pub aixm_lower_limit_reference: Option<String>,
     #[serde(rename = "altitudeInterpretation")]
-    pub aixm_altitude_interpretation: AixmAltitudeInterpretation,
+    pub aixm_altitude_interpretation: Option<String>,
     #[serde(rename = "discreteLevelSeries")]
     pub aixm_discrete_level_series: Option<AixmDiscreteLevelSeries>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmAltitudeInterpretation {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1606,13 +821,6 @@ pub struct AixmAltitudeInterpretation {
 pub struct AixmDiscreteLevelSeries {
     #[serde(rename = "@href")]
     pub xlink_href: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmUnitOfMeasurement {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1649,117 +857,38 @@ pub struct AixmLevelTable {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmStandardIcao {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmNominalLength {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmLengthAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmNominalWidth {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthShoulder {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmLengthStrip {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmWidthStrip {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmLengthOffset {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWidthOffset {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmAbandoned {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1777,146 +906,38 @@ pub struct AixmSurfaceCharacteristics {
     #[serde(rename = "composition")]
     pub aixm_composition: String,
     #[serde(rename = "preparation")]
-    pub aixm_preparation: AixmPreparation,
+    pub aixm_preparation: Option<String>,
     #[serde(rename = "surfaceCondition")]
-    pub aixm_surface_condition: AixmSurfaceCondition,
+    pub aixm_surface_condition: Option<String>,
     #[serde(rename = "classPCN")]
-    pub aixm_class_pcn: AixmClassPcn,
+    pub aixm_class_pcn: Option<String>,
     #[serde(rename = "pavementTypePCN")]
-    pub aixm_pavement_type_pcn: AixmPavementTypePcn,
+    pub aixm_pavement_type_pcn: Option<String>,
     #[serde(rename = "pavementSubgradePCN")]
-    pub aixm_pavement_subgrade_pcn: AixmPavementSubgradePcn,
+    pub aixm_pavement_subgrade_pcn: Option<String>,
     #[serde(rename = "maxTyrePressurePCN")]
-    pub aixm_max_tyre_pressure_pcn: AixmMaxTyrePressurePcn,
+    pub aixm_max_tyre_pressure_pcn: Option<String>,
     #[serde(rename = "evaluationMethodPCN")]
-    pub aixm_evaluation_method_pcn: AixmEvaluationMethodPcn,
+    pub aixm_evaluation_method_pcn: Option<String>,
     #[serde(rename = "classLCN")]
-    pub aixm_class_lcn: AixmClassLcn,
+    pub aixm_class_lcn: Option<String>,
     #[serde(rename = "weightSIWL")]
-    pub aixm_weight_siwl: AixmWeightSiwl,
+    pub aixm_weight_siwl: Option<String>,
     #[serde(rename = "tyrePressureSIWL")]
-    pub aixm_tyre_pressure_siwl: AixmTyrePressureSiwl,
+    pub aixm_tyre_pressure_siwl: Option<String>,
     #[serde(rename = "weightAUW")]
-    pub aixm_weight_auw: AixmWeightAuw,
+    pub aixm_weight_auw: Option<AixmWeightAuw>,
     #[serde(rename = "annotation")]
-    pub aixm_annotation: AixmAnnotation,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPreparation {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmSurfaceCondition {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmClassPcn {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPavementTypePcn {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPavementSubgradePcn {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMaxTyrePressurePcn {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmEvaluationMethodPcn {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmClassLcn {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmWeightSiwl {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmTyrePressureSiwl {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
+    pub aixm_annotation: Option<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AixmWeightAuw {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1926,17 +947,6 @@ pub struct AixmOnRunway {
     pub xlink_href: String,
     #[serde(rename = "@title")]
     pub xlink_title: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmDesignator {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1972,124 +982,18 @@ pub struct AixmRunwayDeclaredDistanceValue {
     #[serde(rename = "distance")]
     pub aixm_distance: AixmDistance,
     #[serde(rename = "distanceAccuracy")]
-    pub aixm_distance_accuracy: AixmDistanceAccuracy,
+    pub aixm_distance_accuracy: Option<String>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmDistanceAccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmTrueBearing {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmMagneticBearing {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPatternVfr {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmSlopeTdz {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmElevationTdz {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmElevationTdzaccuracy {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-    #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmApproachMarkingType {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmApproachMarkingCondition {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmClassLightingJar {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPrecisionApproachGuidance {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2135,30 +1039,19 @@ pub struct AixmRunwayProtectAreaTimeSlice {
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "width")]
-    pub aixm_width: AixmWidth,
+    pub aixm_width: Option<AixmWidth>,
     #[serde(rename = "length")]
-    pub aixm_length: AixmLength,
+    pub aixm_length: Option<AixmLength>,
     #[serde(rename = "type")]
     pub aixm_type: String,
     #[serde(rename = "status")]
-    pub aixm_status: AixmStatus,
+    pub aixm_status: Option<String>,
     #[serde(rename = "protectedRunwayDirection")]
     pub aixm_protected_runway_direction: AixmProtectedRunwayDirection,
     #[serde(rename = "surfaceProperties")]
     pub aixm_surface_properties: Option<AixmSurfaceProperties>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmStatus {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2172,82 +1065,11 @@ pub struct AixmProtectedRunwayDirection {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmEmergencyLighting {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmIntensityLevel {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmColour {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPosition {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmNumberBox {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmPortable {
-    #[serde(rename = "@nil")]
-    pub xsi_nil: String,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct AixmSlopeAngle {
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
-    #[serde(rename = "$text")]
-    pub text: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
 pub struct AixmMinimumEyeHeightOverThreshold {
     #[serde(rename = "@uom")]
-    pub uom: Option<String>,
-    #[serde(rename = "@nilReason")]
-    pub nil_reason: Option<String>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
+    pub uom: String,
     #[serde(rename = "$text")]
-    pub text: Option<String>,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2327,17 +1149,17 @@ pub struct AixmDmetimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: AixmMagneticVariation,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
-    pub aixm_date_magnetic_variation: AixmDateMagneticVariation,
+    pub aixm_date_magnetic_variation: Option<u32>,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "authority")]
@@ -2345,13 +1167,13 @@ pub struct AixmDmetimeSlice {
     #[serde(rename = "availability")]
     pub aixm_availability: AixmNavaidAvailability,
     #[serde(rename = "type")]
-    pub aixm_type: AixmType,
+    pub aixm_type: Option<String>,
     #[serde(rename = "channel")]
     pub aixm_channel: String,
     #[serde(rename = "ghostFrequency")]
-    pub aixm_ghost_frequency: AixmGhostFrequency,
+    pub aixm_ghost_frequency: Option<AixmGhostFrequency>,
     #[serde(rename = "displace")]
-    pub aixm_displace: AixmDisplace,
+    pub aixm_displace: Option<String>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
 }
@@ -2392,19 +1214,19 @@ pub struct AixmGlidepathTimeSlice {
     #[serde(rename = "designator")]
     pub aixm_designator: String,
     #[serde(rename = "name")]
-    pub aixm_name: AixmName,
+    pub aixm_name: Option<String>,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: AixmMagneticVariation,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
-    pub aixm_date_magnetic_variation: AixmDateMagneticVariation,
+    pub aixm_date_magnetic_variation: Option<u32>,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "availability")]
@@ -2414,11 +1236,11 @@ pub struct AixmGlidepathTimeSlice {
     #[serde(rename = "slope")]
     pub aixm_slope: String,
     #[serde(rename = "angleAccuracy")]
-    pub aixm_angle_accuracy: AixmAngleAccuracy,
+    pub aixm_angle_accuracy: Option<String>,
     #[serde(rename = "rdh")]
-    pub aixm_rdh: AixmRdh,
+    pub aixm_rdh: Option<AixmRdh>,
     #[serde(rename = "rdhAccuracy")]
-    pub aixm_rdh_accuracy: AixmRdhAccuracy,
+    pub aixm_rdh_accuracy: Option<String>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
 }
@@ -2459,19 +1281,19 @@ pub struct AixmLocalizerTimeSlice {
     #[serde(rename = "designator")]
     pub aixm_designator: String,
     #[serde(rename = "name")]
-    pub aixm_name: AixmName,
+    pub aixm_name: Option<String>,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: String,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
     pub aixm_date_magnetic_variation: String,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "availability")]
@@ -2481,19 +1303,19 @@ pub struct AixmLocalizerTimeSlice {
     #[serde(rename = "magneticBearing")]
     pub aixm_magnetic_bearing: String,
     #[serde(rename = "magneticBearingAccuracy")]
-    pub aixm_magnetic_bearing_accuracy: AixmMagneticBearingAccuracy,
+    pub aixm_magnetic_bearing_accuracy: Option<String>,
     #[serde(rename = "trueBearing")]
     pub aixm_true_bearing: String,
     #[serde(rename = "trueBearingAccuracy")]
-    pub aixm_true_bearing_accuracy: AixmTrueBearingAccuracy,
+    pub aixm_true_bearing_accuracy: Option<String>,
     #[serde(rename = "declination")]
-    pub aixm_declination: AixmDeclination,
+    pub aixm_declination: Option<String>,
     #[serde(rename = "widthCourse")]
-    pub aixm_width_course: AixmWidthCourse,
+    pub aixm_width_course: Option<u32>,
     #[serde(rename = "widthCourseAccuracy")]
-    pub aixm_width_course_accuracy: AixmWidthCourseAccuracy,
+    pub aixm_width_course_accuracy: Option<String>,
     #[serde(rename = "backCourseUsable")]
-    pub aixm_back_course_usable: AixmBackCourseUsable,
+    pub aixm_back_course_usable: Option<String>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
 }
@@ -2536,29 +1358,29 @@ pub struct AixmMarkerBeaconTimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: AixmMagneticVariation,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
-    pub aixm_date_magnetic_variation: AixmDateMagneticVariation,
+    pub aixm_date_magnetic_variation: Option<u32>,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "authority")]
     pub aixm_authority: Option<AixmAuthority>,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
     #[serde(rename = "class")]
-    pub aixm_class: AixmClass,
+    pub aixm_class: Option<String>,
     #[serde(rename = "frequency")]
     pub aixm_frequency: AixmFrequency,
     #[serde(rename = "axisBearing")]
-    pub aixm_axis_bearing: AixmAxisBearing,
+    pub aixm_axis_bearing: Option<f64>,
     #[serde(rename = "auralMorseCode")]
     pub aixm_aural_morse_code: String,
 }
@@ -2601,17 +1423,17 @@ pub struct AixmNdbtimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: String,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
-    pub aixm_date_magnetic_variation: AixmDateMagneticVariation,
+    pub aixm_date_magnetic_variation: Option<u32>,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "authority")]
@@ -2623,9 +1445,9 @@ pub struct AixmNdbtimeSlice {
     #[serde(rename = "class")]
     pub aixm_class: String,
     #[serde(rename = "emissionBand")]
-    pub aixm_emission_band: AixmEmissionBand,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
+    pub aixm_emission_band: Option<String>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2666,27 +1488,27 @@ pub struct AixmNavaidTimeSlice {
     #[serde(rename = "designator")]
     pub aixm_designator: String,
     #[serde(rename = "name")]
-    pub aixm_name: AixmName,
+    pub aixm_name: Option<String>,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "purpose")]
-    pub aixm_purpose: AixmPurpose,
+    pub aixm_purpose: Option<String>,
     #[serde(rename = "signalPerformance")]
-    pub aixm_signal_performance: AixmSignalPerformance,
+    pub aixm_signal_performance: Option<String>,
     #[serde(rename = "courseQuality")]
-    pub aixm_course_quality: AixmCourseQuality,
+    pub aixm_course_quality: Option<String>,
     #[serde(rename = "integrityLevel")]
-    pub aixm_integrity_level: AixmIntegrityLevel,
+    pub aixm_integrity_level: Option<String>,
     #[serde(rename = "navaidEquipment")]
     pub aixm_navaid_equipment: Vec<AixmNavaidEquipment>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "runwayDirection")]
     pub aixm_runway_direction: Option<AixmRunwayDirectionLink>,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
-    #[serde(rename = "servedAirport")]
-    pub aixm_served_airport: Option<Vec<AixmServedAirport>>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
+    #[serde(rename = "servedAirport", default)]
+    pub aixm_served_airport: Vec<AixmServedAirport>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2725,7 +1547,7 @@ pub struct AixmRadioFrequencyAreaTimeSlice {
     #[serde(rename = "type")]
     pub aixm_type: String,
     #[serde(rename = "angleScallop")]
-    pub aixm_angle_scallop: AixmAngleScallop,
+    pub aixm_angle_scallop: Option<String>,
     #[serde(rename = "signalType")]
     pub aixm_signal_type: String,
     #[serde(rename = "equipment_navaidEquipment")]
@@ -2774,17 +1596,17 @@ pub struct AixmTacantimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: String,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
     pub aixm_date_magnetic_variation: String,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "authority")]
@@ -2794,7 +1616,7 @@ pub struct AixmTacantimeSlice {
     #[serde(rename = "channel")]
     pub aixm_channel: String,
     #[serde(rename = "declination")]
-    pub aixm_declination: AixmDeclination,
+    pub aixm_declination: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2812,12 +1634,12 @@ pub struct AixmVor {
 #[serde(deny_unknown_fields)]
 pub struct AixmVorAixmTimeSlice {
     #[serde(rename = "VORTimeSlice")]
-    pub aixm_vortime_slice: AixmVortimeSlice,
+    pub aixm_vortime_slice: AixmVorTimeSlice,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AixmVortimeSlice {
+pub struct AixmVorTimeSlice {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "validTime")]
@@ -2835,17 +1657,17 @@ pub struct AixmVortimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "emissionClass")]
-    pub aixm_emission_class: AixmEmissionClass,
+    pub aixm_emission_class: Option<String>,
     #[serde(rename = "mobile")]
-    pub aixm_mobile: AixmMobile,
+    pub aixm_mobile: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: String,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
     pub aixm_date_magnetic_variation: String,
     #[serde(rename = "flightChecked")]
-    pub aixm_flight_checked: AixmFlightChecked,
+    pub aixm_flight_checked: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
     #[serde(rename = "authority")]
@@ -2859,7 +1681,7 @@ pub struct AixmVortimeSlice {
     #[serde(rename = "zeroBearingDirection")]
     pub aixm_zero_bearing_direction: String,
     #[serde(rename = "declination")]
-    pub aixm_declination: AixmDeclination,
+    pub aixm_declination: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2898,15 +1720,15 @@ pub struct AixmAngleIndicationTimeSlice {
     #[serde(rename = "angle")]
     pub aixm_angle: String,
     #[serde(rename = "angleType")]
-    pub aixm_angle_type: AixmAngleType,
+    pub aixm_angle_type: Option<String>,
     #[serde(rename = "indicationDirection")]
-    pub aixm_indication_direction: AixmIndicationDirection,
+    pub aixm_indication_direction: Option<String>,
     #[serde(rename = "trueAngle")]
-    pub aixm_true_angle: AixmTrueAngle,
+    pub aixm_true_angle: Option<f64>,
     #[serde(rename = "cardinalDirection")]
-    pub aixm_cardinal_direction: AixmCardinalDirection,
+    pub aixm_cardinal_direction: Option<String>,
     #[serde(rename = "minimumReceptionAltitude")]
-    pub aixm_minimum_reception_altitude: AixmMinimumReceptionAltitude,
+    pub aixm_minimum_reception_altitude: Option<String>,
     #[serde(rename = "fix")]
     pub aixm_fix: AixmFix,
     #[serde(rename = "pointChoice_navaidSystem")]
@@ -2951,11 +1773,11 @@ pub struct AixmDesignatedPointTimeSlice {
     #[serde(rename = "type")]
     pub aixm_type: String,
     #[serde(rename = "name")]
-    pub aixm_name: AixmName,
+    pub aixm_name: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: AixmLocation,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
     #[serde(rename = "airportHeliport")]
     pub aixm_airport_heliport: Option<AixmAirportHeliportLink>,
 }
@@ -2996,9 +1818,9 @@ pub struct AixmDistanceIndicationTimeSlice {
     #[serde(rename = "distance")]
     pub aixm_distance: AixmDistance,
     #[serde(rename = "minimumReceptionAltitude")]
-    pub aixm_minimum_reception_altitude: AixmMinimumReceptionAltitude,
+    pub aixm_minimum_reception_altitude: Option<String>,
     #[serde(rename = "type")]
-    pub aixm_type: AixmType,
+    pub aixm_type: Option<String>,
     #[serde(rename = "fix")]
     pub aixm_fix: AixmFix,
     #[serde(rename = "pointChoice_navaidSystem")]
@@ -3043,39 +1865,39 @@ pub struct AixmAirportHeliportTimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "locationIndicatorICAO")]
-    pub aixm_location_indicator_icao: AixmLocationIndicatorIcao,
+    pub aixm_location_indicator_icao: Option<String>,
     #[serde(rename = "designatorIATA")]
-    pub aixm_designator_iata: AixmDesignatorIata,
+    pub aixm_designator_iata: Option<String>,
     #[serde(rename = "type")]
     pub aixm_type: String,
     #[serde(rename = "controlType")]
-    pub aixm_control_type: AixmControlType,
+    pub aixm_control_type: Option<String>,
     #[serde(rename = "fieldElevation")]
-    pub aixm_field_elevation: AixmFieldElevation,
+    pub aixm_field_elevation: Option<AixmFieldElevation>,
     #[serde(rename = "verticalDatum")]
-    pub aixm_vertical_datum: AixmVerticalDatum,
+    pub aixm_vertical_datum: Option<String>,
     #[serde(rename = "magneticVariation")]
-    pub aixm_magnetic_variation: AixmMagneticVariation,
+    pub aixm_magnetic_variation: Option<f64>,
     #[serde(rename = "magneticVariationAccuracy")]
-    pub aixm_magnetic_variation_accuracy: AixmMagneticVariationAccuracy,
+    pub aixm_magnetic_variation_accuracy: Option<f64>,
     #[serde(rename = "dateMagneticVariation")]
-    pub aixm_date_magnetic_variation: AixmDateMagneticVariation,
+    pub aixm_date_magnetic_variation: Option<u32>,
     #[serde(rename = "magneticVariationChange")]
-    pub aixm_magnetic_variation_change: AixmMagneticVariationChange,
+    pub aixm_magnetic_variation_change: Option<f64>,
     #[serde(rename = "referenceTemperature")]
-    pub aixm_reference_temperature: AixmReferenceTemperature,
+    pub aixm_reference_temperature: Option<AixmReferenceTemperature>,
     #[serde(rename = "transitionAltitude")]
-    pub aixm_transition_altitude: AixmTransitionAltitude,
+    pub aixm_transition_altitude: Option<AixmTransitionAltitude>,
     #[serde(rename = "transitionLevel")]
-    pub aixm_transition_level: AixmTransitionLevel,
+    pub aixm_transition_level: Option<AixmTransitionLevel>,
     #[serde(rename = "lowestTemperature")]
-    pub aixm_lowest_temperature: AixmLowestTemperature,
+    pub aixm_lowest_temperature: Option<AixmLowestTemperature>,
     #[serde(rename = "abandoned")]
     pub aixm_abandoned: String,
     #[serde(rename = "certificationDate")]
-    pub aixm_certification_date: AixmCertificationDate,
+    pub aixm_certification_date: Option<String>,
     #[serde(rename = "certificationExpirationDate")]
-    pub aixm_certification_expiration_date: AixmCertificationExpirationDate,
+    pub aixm_certification_expiration_date: Option<String>,
     #[serde(rename = "responsibleOrganisation")]
     pub aixm_responsible_organisation: AixmResponsibleOrganisation,
     #[serde(rename = "ARP")]
@@ -3130,7 +1952,7 @@ pub struct AixmAirportHeliportCollocationTimeSlice {
     #[serde(rename = "dependentAirport")]
     pub aixm_dependent_airport: AixmDependentAirport,
     #[serde(rename = "annotation")]
-    pub aixm_annotation: AixmAnnotation,
+    pub aixm_annotation: Option<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3163,27 +1985,27 @@ pub struct AixmRouteTimeSlice {
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "designatorPrefix")]
-    pub aixm_designator_prefix: AixmDesignatorPrefix,
+    pub aixm_designator_prefix: Option<String>,
     #[serde(rename = "designatorSecondLetter")]
     pub aixm_designator_second_letter: String,
     #[serde(rename = "designatorNumber")]
     pub aixm_designator_number: String,
     #[serde(rename = "multipleIdentifier")]
-    pub aixm_multiple_identifier: AixmMultipleIdentifier,
+    pub aixm_multiple_identifier: Option<String>,
     #[serde(rename = "locationDesignator")]
     pub aixm_location_designator: String,
     #[serde(rename = "name")]
-    pub aixm_name: AixmName,
+    pub aixm_name: Option<String>,
     #[serde(rename = "type")]
-    pub aixm_type: AixmType,
+    pub aixm_type: Option<String>,
     #[serde(rename = "flightRule")]
-    pub aixm_flight_rule: AixmFlightRule,
+    pub aixm_flight_rule: Option<String>,
     #[serde(rename = "internationalUse")]
-    pub aixm_international_use: AixmInternationalUse,
+    pub aixm_international_use: Option<String>,
     #[serde(rename = "militaryUse")]
-    pub aixm_military_use: AixmMilitaryUse,
+    pub aixm_military_use: Option<String>,
     #[serde(rename = "militaryTrainingType")]
-    pub aixm_military_training_type: AixmMilitaryTrainingType,
+    pub aixm_military_training_type: Option<String>,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
 }
@@ -3228,43 +2050,43 @@ pub struct AixmRouteSegmentTimeSlice {
     #[serde(rename = "lowerLimitReference")]
     pub aixm_lower_limit_reference: String,
     #[serde(rename = "minimumObstacleClearanceAltitude")]
-    pub aixm_minimum_obstacle_clearance_altitude: AixmMinimumObstacleClearanceAltitude,
+    pub aixm_minimum_obstacle_clearance_altitude: Option<String>,
     #[serde(rename = "pathType")]
-    pub aixm_path_type: AixmPathType,
+    pub aixm_path_type: Option<String>,
     #[serde(rename = "trueTrack")]
-    pub aixm_true_track: AixmTrueTrack,
+    pub aixm_true_track: Option<f64>,
     #[serde(rename = "magneticTrack")]
-    pub aixm_magnetic_track: AixmMagneticTrack,
+    pub aixm_magnetic_track: Option<f64>,
     #[serde(rename = "reverseTrueTrack")]
-    pub aixm_reverse_true_track: AixmReverseTrueTrack,
+    pub aixm_reverse_true_track: Option<f64>,
     #[serde(rename = "reverseMagneticTrack")]
-    pub aixm_reverse_magnetic_track: AixmReverseMagneticTrack,
+    pub aixm_reverse_magnetic_track: Option<f64>,
     #[serde(rename = "length")]
     pub aixm_length: AixmLength,
     #[serde(rename = "widthLeft")]
-    pub aixm_width_left: AixmWidthLeft,
+    pub aixm_width_left: Option<String>,
     #[serde(rename = "widthRight")]
-    pub aixm_width_right: AixmWidthRight,
+    pub aixm_width_right: Option<String>,
     #[serde(rename = "turnDirection")]
-    pub aixm_turn_direction: AixmTurnDirection,
+    pub aixm_turn_direction: Option<String>,
     #[serde(rename = "signalGap")]
-    pub aixm_signal_gap: AixmSignalGap,
+    pub aixm_signal_gap: Option<String>,
     #[serde(rename = "minimumEnrouteAltitude")]
-    pub aixm_minimum_enroute_altitude: AixmMinimumEnrouteAltitude,
+    pub aixm_minimum_enroute_altitude: Option<String>,
     #[serde(rename = "minimumCrossingAtEnd")]
-    pub aixm_minimum_crossing_at_end: AixmMinimumCrossingAtEnd,
+    pub aixm_minimum_crossing_at_end: Option<String>,
     #[serde(rename = "minimumCrossingAtEndReference")]
-    pub aixm_minimum_crossing_at_end_reference: AixmMinimumCrossingAtEndReference,
+    pub aixm_minimum_crossing_at_end_reference: Option<String>,
     #[serde(rename = "maximumCrossingAtEnd")]
-    pub aixm_maximum_crossing_at_end: AixmMaximumCrossingAtEnd,
+    pub aixm_maximum_crossing_at_end: Option<String>,
     #[serde(rename = "maximumCrossingAtEndReference")]
-    pub aixm_maximum_crossing_at_end_reference: AixmMaximumCrossingAtEndReference,
+    pub aixm_maximum_crossing_at_end_reference: Option<String>,
     #[serde(rename = "navigationType")]
     pub aixm_navigation_type: String,
     #[serde(rename = "requiredNavigationPerformance")]
-    pub aixm_required_navigation_performance: AixmRequiredNavigationPerformance,
+    pub aixm_required_navigation_performance: Option<String>,
     #[serde(rename = "designatorSuffix")]
-    pub aixm_designator_suffix: AixmDesignatorSuffix,
+    pub aixm_designator_suffix: Option<String>,
     #[serde(rename = "start")]
     pub aixm_start: AixmStart,
     #[serde(rename = "routeFormed")]
@@ -3275,8 +2097,8 @@ pub struct AixmRouteSegmentTimeSlice {
     pub aixm_end: AixmEnd,
     #[serde(rename = "availability")]
     pub aixm_availability: Vec<AixmRouteSegmentAixmAvailability>,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3313,7 +2135,7 @@ pub struct AixmStandardLevelColumnTimeSlice {
     #[serde(rename = "series")]
     pub aixm_series: String,
     #[serde(rename = "unitOfMeasurement")]
-    pub aixm_unit_of_measurement: AixmUnitOfMeasurement,
+    pub aixm_unit_of_measurement: Option<String>,
     #[serde(rename = "separation")]
     pub aixm_separation: String,
     #[serde(rename = "level")]
@@ -3354,7 +2176,7 @@ pub struct AixmStandardLevelTableTimeSlice {
     #[serde(rename = "name")]
     pub aixm_name: String,
     #[serde(rename = "standardICAO")]
-    pub aixm_standard_icao: AixmStandardIcao,
+    pub aixm_standard_icao: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3395,31 +2217,31 @@ pub struct AixmRunwayTimeSlice {
     #[serde(rename = "type")]
     pub aixm_type: String,
     #[serde(rename = "nominalLength")]
-    pub aixm_nominal_length: AixmNominalLength,
+    pub aixm_nominal_length: Option<AixmNominalLength>,
     #[serde(rename = "lengthAccuracy")]
-    pub aixm_length_accuracy: AixmLengthAccuracy,
+    pub aixm_length_accuracy: Option<String>,
     #[serde(rename = "nominalWidth")]
-    pub aixm_nominal_width: AixmNominalWidth,
+    pub aixm_nominal_width: Option<AixmNominalWidth>,
     #[serde(rename = "widthAccuracy")]
-    pub aixm_width_accuracy: AixmWidthAccuracy,
+    pub aixm_width_accuracy: Option<String>,
     #[serde(rename = "widthShoulder")]
-    pub aixm_width_shoulder: AixmWidthShoulder,
+    pub aixm_width_shoulder: Option<String>,
     #[serde(rename = "lengthStrip")]
-    pub aixm_length_strip: AixmLengthStrip,
+    pub aixm_length_strip: Option<AixmLengthStrip>,
     #[serde(rename = "widthStrip")]
-    pub aixm_width_strip: AixmWidthStrip,
+    pub aixm_width_strip: Option<AixmWidthStrip>,
     #[serde(rename = "lengthOffset")]
-    pub aixm_length_offset: AixmLengthOffset,
+    pub aixm_length_offset: Option<String>,
     #[serde(rename = "widthOffset")]
-    pub aixm_width_offset: AixmWidthOffset,
+    pub aixm_width_offset: Option<String>,
     #[serde(rename = "abandoned")]
-    pub aixm_abandoned: AixmAbandoned,
+    pub aixm_abandoned: Option<String>,
     #[serde(rename = "surfaceProperties")]
     pub aixm_surface_properties: AixmSurfaceProperties,
     #[serde(rename = "associatedAirportHeliport")]
     pub aixm_associated_airport_heliport: AixmAirportHeliportLink,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3458,15 +2280,15 @@ pub struct AixmRunwayCentrelinePointTimeSlice {
     #[serde(rename = "role")]
     pub aixm_role: String,
     #[serde(rename = "designator")]
-    pub aixm_designator: AixmDesignator,
+    pub aixm_designator: Option<String>,
     #[serde(rename = "location")]
     pub aixm_location: Option<AixmLocation>,
     #[serde(rename = "onRunway")]
     pub aixm_on_runway: AixmOnRunway,
     #[serde(rename = "annotation")]
     pub aixm_annotation: Option<AixmAnnotation>,
-    #[serde(rename = "associatedDeclaredDistance")]
-    pub aixm_associated_declared_distance: Option<Vec<AixmAssociatedDeclaredDistance>>,
+    #[serde(rename = "associatedDeclaredDistance", default)]
+    pub aixm_associated_declared_distance: Vec<AixmAssociatedDeclaredDistance>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3505,31 +2327,31 @@ pub struct AixmRunwayDirectionTimeSlice {
     #[serde(rename = "designator")]
     pub aixm_designator: String,
     #[serde(rename = "trueBearing")]
-    pub aixm_true_bearing: AixmTrueBearing,
+    pub aixm_true_bearing: Option<f64>,
     #[serde(rename = "trueBearingAccuracy")]
-    pub aixm_true_bearing_accuracy: AixmTrueBearingAccuracy,
+    pub aixm_true_bearing_accuracy: Option<String>,
     #[serde(rename = "magneticBearing")]
-    pub aixm_magnetic_bearing: AixmMagneticBearing,
+    pub aixm_magnetic_bearing: Option<f64>,
     #[serde(rename = "patternVFR")]
-    pub aixm_pattern_vfr: AixmPatternVfr,
+    pub aixm_pattern_vfr: Option<String>,
     #[serde(rename = "slopeTDZ")]
-    pub aixm_slope_tdz: AixmSlopeTdz,
+    pub aixm_slope_tdz: Option<String>,
     #[serde(rename = "elevationTDZ")]
-    pub aixm_elevation_tdz: AixmElevationTdz,
+    pub aixm_elevation_tdz: Option<AixmElevationTdz>,
     #[serde(rename = "elevationTDZAccuracy")]
-    pub aixm_elevation_tdzaccuracy: AixmElevationTdzaccuracy,
+    pub aixm_elevation_tdzaccuracy: Option<String>,
     #[serde(rename = "approachMarkingType")]
-    pub aixm_approach_marking_type: AixmApproachMarkingType,
+    pub aixm_approach_marking_type: Option<String>,
     #[serde(rename = "approachMarkingCondition")]
-    pub aixm_approach_marking_condition: AixmApproachMarkingCondition,
+    pub aixm_approach_marking_condition: Option<String>,
     #[serde(rename = "classLightingJAR")]
-    pub aixm_class_lighting_jar: AixmClassLightingJar,
+    pub aixm_class_lighting_jar: Option<String>,
     #[serde(rename = "precisionApproachGuidance")]
-    pub aixm_precision_approach_guidance: AixmPrecisionApproachGuidance,
+    pub aixm_precision_approach_guidance: Option<String>,
     #[serde(rename = "usedRunway")]
     pub aixm_used_runway: AixmUsedRunway,
-    #[serde(rename = "annotation")]
-    pub aixm_annotation: Option<Vec<AixmAnnotation>>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3566,23 +2388,23 @@ pub struct AixmVisualGlideSlopeIndicatorTimeSlice {
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "emergencyLighting")]
-    pub aixm_emergency_lighting: AixmEmergencyLighting,
+    pub aixm_emergency_lighting: Option<String>,
     #[serde(rename = "intensityLevel")]
-    pub aixm_intensity_level: AixmIntensityLevel,
+    pub aixm_intensity_level: Option<String>,
     #[serde(rename = "colour")]
-    pub aixm_colour: AixmColour,
+    pub aixm_colour: Option<String>,
     #[serde(rename = "type")]
     pub aixm_type: String,
     #[serde(rename = "position")]
-    pub aixm_position: AixmPosition,
+    pub aixm_position: Option<String>,
     #[serde(rename = "numberBox")]
-    pub aixm_number_box: AixmNumberBox,
+    pub aixm_number_box: Option<String>,
     #[serde(rename = "portable")]
-    pub aixm_portable: AixmPortable,
+    pub aixm_portable: Option<String>,
     #[serde(rename = "slopeAngle")]
-    pub aixm_slope_angle: AixmSlopeAngle,
+    pub aixm_slope_angle: Option<f64>,
     #[serde(rename = "minimumEyeHeightOverThreshold")]
-    pub aixm_minimum_eye_height_over_threshold: AixmMinimumEyeHeightOverThreshold,
+    pub aixm_minimum_eye_height_over_threshold: Option<AixmMinimumEyeHeightOverThreshold>,
     #[serde(rename = "runwayDirection")]
     pub aixm_runway_direction: AixmRunwayDirectionLink,
 }

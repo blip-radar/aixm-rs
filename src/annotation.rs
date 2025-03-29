@@ -5,8 +5,6 @@ use serde::{Deserialize, Serialize};
 pub struct AixmAnnotation {
     #[serde(rename = "Note")]
     pub aixm_note: Option<AixmNote>,
-    #[serde(rename = "@nil")]
-    pub xsi_nil: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
