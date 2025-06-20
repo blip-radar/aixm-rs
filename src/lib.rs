@@ -1033,9 +1033,9 @@ pub struct AixmRunwayProtectAreaTimeSlice {
     #[serde(rename = "interpretation")]
     pub aixm_interpretation: String,
     #[serde(rename = "sequenceNumber")]
-    pub aixm_sequence_number: String,
+    pub aixm_sequence_number: Option<String>,
     #[serde(rename = "correctionNumber")]
-    pub aixm_correction_number: String,
+    pub aixm_correction_number: Option<String>,
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "width")]
@@ -2207,9 +2207,9 @@ pub struct AixmRunwayTimeSlice {
     #[serde(rename = "interpretation")]
     pub aixm_interpretation: String,
     #[serde(rename = "sequenceNumber")]
-    pub aixm_sequence_number: String,
+    pub aixm_sequence_number: Option<String>,
     #[serde(rename = "correctionNumber")]
-    pub aixm_correction_number: String,
+    pub aixm_correction_number: Option<String>,
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "designator")]
@@ -2272,9 +2272,9 @@ pub struct AixmRunwayCentrelinePointTimeSlice {
     #[serde(rename = "interpretation")]
     pub aixm_interpretation: String,
     #[serde(rename = "sequenceNumber")]
-    pub aixm_sequence_number: String,
+    pub aixm_sequence_number: Option<String>,
     #[serde(rename = "correctionNumber")]
-    pub aixm_correction_number: String,
+    pub aixm_correction_number: Option<String>,
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "role")]
@@ -2319,9 +2319,9 @@ pub struct AixmRunwayDirectionTimeSlice {
     #[serde(rename = "interpretation")]
     pub aixm_interpretation: String,
     #[serde(rename = "sequenceNumber")]
-    pub aixm_sequence_number: String,
+    pub aixm_sequence_number: Option<String>,
     #[serde(rename = "correctionNumber")]
-    pub aixm_correction_number: String,
+    pub aixm_correction_number: Option<String>,
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "designator")]
@@ -2382,9 +2382,9 @@ pub struct AixmVisualGlideSlopeIndicatorTimeSlice {
     #[serde(rename = "interpretation")]
     pub aixm_interpretation: String,
     #[serde(rename = "sequenceNumber")]
-    pub aixm_sequence_number: String,
+    pub aixm_sequence_number: Option<String>,
     #[serde(rename = "correctionNumber")]
-    pub aixm_correction_number: String,
+    pub aixm_correction_number: Option<String>,
     #[serde(rename = "featureLifetime")]
     pub aixm_feature_lifetime: AixmFeatureLifetime,
     #[serde(rename = "emergencyLighting")]
