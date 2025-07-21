@@ -5,8 +5,8 @@ edition = "2024"
 license = "MIT"
 
 [dependencies]
-quick-xml = { version = "0.37.2", features = ["serialize"] }
-serde = { version = "1.0.218", features = ["derive"] }
+quick-xml = { version = "0.38", features = ["serialize"] }
+serde = { version = "1", features = ["derive"] }
 
 [features]
 
