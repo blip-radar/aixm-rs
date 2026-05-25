@@ -53,13 +53,74 @@ pub struct GmlValidTime {
 pub struct GmlSegments {
     #[serde(rename = "$text")]
     pub text: Option<String>,
-    #[serde(rename = "LineStringSegment")]
-    pub gml_line_string_segment: GmlLineStringSegment,
+    #[serde(rename = "$value", default)]
+    pub segments: Vec<GmlSegment>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+pub enum GmlSegment {
+    GeodesicString(GmlGeodesicString),
+    CircleByCenterPoint(GmlCircleByCenterPoint),
+    ArcByCenterPoint(GmlArcByCenterPoint),
+    LineStringSegment(GmlLineStringSegment),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GmlLineStringSegment {
     #[serde(rename = "posList")]
-    pub gml_pos_list: String,
+    pub gml_pos_list: Option<String>,
+    #[serde(rename = "pos", default)]
+    pub gml_pos: Vec<GmlPos>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GmlPos {
+    #[serde(rename = "$text")]
+    pub text: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GmlRadius {
+    #[serde(rename = "@uom")]
+    pub uom: String,
+    #[serde(rename = "$text")]
+    pub value: f64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GmlGeodesicString {
+    #[serde(rename = "pos", default)]
+    pub positions: Vec<GmlPos>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GmlCircleByCenterPoint {
+    #[serde(rename = "@numArc")]
+    pub num_arc: Option<u32>,
+    #[serde(rename = "pos")]
+    pub center: GmlPos,
+    #[serde(rename = "radius")]
+    pub radius: GmlRadius,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GmlAngle {
+    #[serde(rename = "@uom")]
+    pub uom: String,
+    #[serde(rename = "$text")]
+    pub value: f64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GmlArcByCenterPoint {
+    #[serde(rename = "@numArc")]
+    pub num_arc: Option<u32>,
+    #[serde(rename = "pos")]
+    pub center: GmlPos,
+    #[serde(rename = "radius")]
+    pub radius: GmlRadius,
+    #[serde(rename = "startAngle")]
+    pub start_angle: GmlAngle,
+    #[serde(rename = "endAngle")]
+    pub end_angle: GmlAngle,
 }

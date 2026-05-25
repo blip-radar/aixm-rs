@@ -1012,6 +1012,8 @@ pub struct GmdLineage {
 pub struct GmdLiLineage {
     #[serde(rename = "statement")]
     pub gmd_statement: GmdStatement,
+    #[serde(rename = "processStep")]
+    pub gmd_process_step: Option<GmdProcessStep>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1019,6 +1021,38 @@ pub struct GmdLiLineage {
 pub struct GmdStatement {
     #[serde(rename = "CharacterString")]
     pub gco_character_string: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GmdProcessStep {
+    #[serde(rename = "LI_ProcessStep")]
+    pub gmd_li_process_step: GmdLiProcessStep,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GmdLiProcessStep {
+    #[serde(rename = "description")]
+    pub gmd_description: GmdStatement,
+    #[serde(rename = "dateTime")]
+    pub gmd_date_time: GmdLiDateTime,
+    #[serde(rename = "processor")]
+    pub gmd_processor: GmdLiProcessor,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GmdLiDateTime {
+    #[serde(rename = "DateTime")]
+    pub gco_date_time: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GmdLiProcessor {
+    #[serde(rename = "CI_ResponsibleParty")]
+    pub gmd_ci_responsible_party: GmdCiResponsibleParty,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

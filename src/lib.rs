@@ -10,6 +10,11 @@ mod gmd;
 mod gml;
 mod time_interval;
 
+pub use gml::{
+    GmlArcByCenterPoint, GmlCircleByCenterPoint, GmlGeodesicString, GmlLineStringSegment, GmlPos,
+    GmlRadius, GmlSegment,
+};
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct MessageAixmBasicMessage {
@@ -721,7 +726,7 @@ pub struct AixmCurve {
     #[serde(rename = "@id")]
     pub gml_id: String,
     #[serde(rename = "@srsName")]
-    pub srs_name: String,
+    pub srs_name: Option<String>,
     #[serde(rename = "segments")]
     pub gml_segments: GmlSegments,
 }
@@ -1074,6 +1079,150 @@ pub struct AixmMinimumEyeHeightOverThreshold {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct AixmAuthorityForAirspace {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "identifier")]
+    pub gml_identifier: GmlIdentifier,
+    #[serde(rename = "timeSlice")]
+    pub aixm_time_slice: AixmAuthorityForAirspaceAixmTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAuthorityForAirspaceAixmTimeSlice {
+    #[serde(rename = "AuthorityForAirspaceTimeSlice")]
+    pub aixm_authority_for_airspace_time_slice: AixmAuthorityForAirspaceTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAuthorityForAirspaceTimeSlice {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "validTime")]
+    pub gml_valid_time: GmlValidTime,
+    #[serde(rename = "interpretation")]
+    pub aixm_interpretation: String,
+    #[serde(rename = "featureLifetime")]
+    pub aixm_feature_lifetime: AixmFeatureLifetime,
+    #[serde(rename = "type")]
+    pub aixm_type: String,
+    #[serde(rename = "responsibleOrganisation")]
+    pub aixm_responsible_organisation: AixmHostAirport,
+    #[serde(rename = "assignedAirspace")]
+    pub aixm_assigned_airspace: AixmXlinkHrefMaybeTitle,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmXlinkHrefMaybeTitle {
+    #[serde(rename = "@href")]
+    pub xlink_href: String,
+    #[serde(rename = "@title")]
+    pub xlink_title: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmGeoBorder {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "identifier")]
+    pub gml_identifier: GmlIdentifier,
+    #[serde(rename = "timeSlice")]
+    pub aixm_time_slice: AixmGeoBorderAixmTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmGeoBorderAixmTimeSlice {
+    #[serde(rename = "GeoBorderTimeSlice")]
+    pub aixm_geo_border_time_slice: AixmGeoBorderTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmGeoBorderTimeSlice {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "validTime")]
+    pub gml_valid_time: GmlValidTime,
+    #[serde(rename = "interpretation")]
+    pub aixm_interpretation: String,
+    #[serde(rename = "featureLifetime")]
+    pub aixm_feature_lifetime: AixmFeatureLifetime,
+    #[serde(rename = "name")]
+    pub aixm_name: Option<String>,
+    #[serde(rename = "type")]
+    pub aixm_type: String,
+    #[serde(rename = "border")]
+    pub aixm_border: AixmGeoBorderBorder,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmGeoBorderBorder {
+    #[serde(rename = "Curve")]
+    pub aixm_curve: AixmGeoBorderCurve,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmGeoBorderCurve {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "@srsName")]
+    pub srs_name: String,
+    #[serde(rename = "segments")]
+    pub gml_segments: GmlSegments,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmSignificantPointInAirspace {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "identifier")]
+    pub gml_identifier: GmlIdentifier,
+    #[serde(rename = "timeSlice")]
+    pub aixm_time_slice: AixmSignificantPointInAirspaceAixmTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmSignificantPointInAirspaceAixmTimeSlice {
+    #[serde(rename = "SignificantPointInAirspaceTimeSlice")]
+    pub aixm_significant_point_in_airspace_time_slice: AixmSignificantPointInAirspaceTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmSignificantPointInAirspaceTimeSlice {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "validTime")]
+    pub gml_valid_time: GmlValidTime,
+    #[serde(rename = "interpretation")]
+    pub aixm_interpretation: String,
+    #[serde(rename = "featureLifetime")]
+    pub aixm_feature_lifetime: AixmFeatureLifetime,
+    #[serde(rename = "type")]
+    pub aixm_type: String,
+    #[serde(rename = "relativeLocation")]
+    pub aixm_relative_location: String,
+    #[serde(rename = "containingAirspace")]
+    pub aixm_containing_airspace: AixmHostAirport,
+    #[serde(rename = "location_navaidSystem")]
+    pub aixm_location_navaid_system: Option<AixmHostAirport>,
+    #[serde(rename = "location_fixDesignatedPoint")]
+    pub aixm_location_fix_designated_point: Option<AixmHostAirport>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct MessageHasMember {
     #[serde(rename = "$value")]
     pub member: Member,
@@ -1109,6 +1258,10 @@ pub enum Member {
     VisualGlideSlopeIndicator(Box<AixmVisualGlideSlopeIndicator>),
     #[serde(rename = "VOR")]
     Vor(Box<AixmVor>),
+    Airspace(Box<AixmAirspace>),
+    AuthorityForAirspace(Box<AixmAuthorityForAirspace>),
+    GeoBorder(Box<AixmGeoBorder>),
+    SignificantPointInAirspace(Box<AixmSignificantPointInAirspace>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1311,7 +1464,7 @@ pub struct AixmLocalizerTimeSlice {
     #[serde(rename = "declination")]
     pub aixm_declination: Option<String>,
     #[serde(rename = "widthCourse")]
-    pub aixm_width_course: Option<u32>,
+    pub aixm_width_course: Option<f64>,
     #[serde(rename = "widthCourseAccuracy")]
     pub aixm_width_course_accuracy: Option<String>,
     #[serde(rename = "backCourseUsable")]
@@ -2407,4 +2560,318 @@ pub struct AixmVisualGlideSlopeIndicatorTimeSlice {
     pub aixm_minimum_eye_height_over_threshold: Option<AixmMinimumEyeHeightOverThreshold>,
     #[serde(rename = "runwayDirection")]
     pub aixm_runway_direction: AixmRunwayDirectionLink,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspace {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "identifier")]
+    pub gml_identifier: GmlIdentifier,
+    #[serde(rename = "timeSlice")]
+    pub aixm_time_slice: AixmAirspaceAixmTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceAixmTimeSlice {
+    #[serde(rename = "AirspaceTimeSlice")]
+    pub aixm_airspace_time_slice: AixmAirspaceTimeSlice,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceTimeSlice {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "validTime")]
+    pub gml_valid_time: Option<GmlValidTime>,
+    #[serde(rename = "interpretation")]
+    pub aixm_interpretation: String,
+    #[serde(rename = "featureLifetime")]
+    pub aixm_feature_lifetime: Option<AixmFeatureLifetime>,
+    #[serde(rename = "sequenceNumber")]
+    pub aixm_sequence_number: Option<String>,
+    #[serde(rename = "correctionNumber")]
+    pub aixm_correction_number: Option<String>,
+    #[serde(rename = "type")]
+    pub aixm_type: Option<String>,
+    #[serde(rename = "designator")]
+    pub aixm_designator: Option<String>,
+    #[serde(rename = "name")]
+    pub aixm_name: Option<String>,
+    #[serde(rename = "localType")]
+    pub aixm_local_type: Option<String>,
+    #[serde(rename = "designatorICAO")]
+    pub aixm_designator_icao: Option<AixmNilableString>,
+    #[serde(rename = "controlType")]
+    pub aixm_control_type: Option<AixmNilableString>,
+    #[serde(rename = "upperLowerSeparation")]
+    pub aixm_upper_lower_separation: Option<AixmNilableString>,
+    #[serde(rename = "class", default)]
+    pub aixm_class: Vec<AixmClass>,
+    #[serde(rename = "activation", default)]
+    pub aixm_activation: Vec<AixmActivation>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
+    #[serde(rename = "geometryComponent", default)]
+    pub aixm_geometry_component: Vec<AixmGeometryComponentWrapper>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmGeometryComponentWrapper {
+    #[serde(rename = "AirspaceGeometryComponent")]
+    pub aixm_airspace_geometry_component: AixmAirspaceGeometryComponent,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceGeometryComponent {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "operation")]
+    pub aixm_operation: Option<String>,
+    #[serde(rename = "operationSequence")]
+    pub aixm_operation_sequence: Option<u32>,
+    #[serde(rename = "theAirspaceVolume")]
+    pub aixm_the_airspace_volume: AixmTheAirspaceVolume,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmTheAirspaceVolume {
+    #[serde(rename = "AirspaceVolume")]
+    pub aixm_airspace_volume: AixmAirspaceVolume,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceVolume {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "upperLimit")]
+    pub aixm_upper_limit: Option<AixmAltitudeLimit>,
+    #[serde(rename = "upperLimitReference")]
+    pub aixm_upper_limit_reference: Option<String>,
+    #[serde(rename = "lowerLimit")]
+    pub aixm_lower_limit: Option<AixmAltitudeLimit>,
+    #[serde(rename = "lowerLimitReference")]
+    pub aixm_lower_limit_reference: Option<String>,
+    #[serde(rename = "width")]
+    pub aixm_width: Option<AixmAirspaceWidth>,
+    #[serde(rename = "horizontalProjection")]
+    pub aixm_horizontal_projection: Option<AixmHorizontalProjection>,
+    #[serde(rename = "contributorAirspace", default)]
+    pub aixm_contributor_airspace: Vec<AixmContributorAirspace>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAltitudeLimit {
+    #[serde(rename = "@uom")]
+    pub uom: Option<String>,
+    #[serde(rename = "@nil")]
+    pub xsi_nil: Option<String>,
+    #[serde(rename = "@nilReason")]
+    pub nil_reason: Option<String>,
+    #[serde(rename = "$text")]
+    pub value: Option<f64>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmHorizontalProjection {
+    #[serde(rename = "Surface")]
+    pub aixm_surface: AixmSurface,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmSurface {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "@srsName")]
+    pub srs_name: Option<String>,
+    #[serde(rename = "patches")]
+    pub gml_patches: AixmPatches,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmPatches {
+    #[serde(rename = "PolygonPatch")]
+    pub gml_polygon_patch: AixmPolygonPatch,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmPolygonPatch {
+    #[serde(rename = "exterior")]
+    pub gml_exterior: AixmExterior,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmExterior {
+    #[serde(rename = "Ring")]
+    pub gml_ring: AixmRing,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmRing {
+    #[serde(rename = "curveMember", default)]
+    pub gml_curve_member: Vec<AixmCurveMember>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmCurveMember {
+    // xlink attributes present when element is an XLink reference
+    #[serde(rename = "@href")]
+    pub xlink_href: Option<String>,
+    #[serde(rename = "@title")]
+    pub xlink_title: Option<String>,
+    // None when the element is an XLink reference (<gml:curveMember xlink:href="..."/>)
+    #[serde(rename = "Curve")]
+    pub gml_curve: Option<AixmCurve>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmClass {
+    #[serde(rename = "AirspaceLayerClass")]
+    pub aixm_airspace_layer_class: AixmAirspaceLayerClass,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceLayerClass {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "classification")]
+    pub aixm_classification: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmActivation {
+    #[serde(rename = "AirspaceActivation")]
+    pub aixm_airspace_activation: AixmAirspaceActivation,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceActivation {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "timeInterval", default)]
+    pub aixm_time_interval: Vec<AixmActivationTimeInterval>,
+    #[serde(rename = "activity")]
+    pub aixm_activity: Option<String>,
+    #[serde(rename = "status")]
+    pub aixm_status: Option<String>,
+    #[serde(rename = "excluded")]
+    pub aixm_excluded: Option<String>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmActivationTimeInterval {
+    #[serde(rename = "Timesheet")]
+    pub aixm_timesheet: AixmTimesheet,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmTimesheet {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "timeReference")]
+    pub aixm_time_reference: Option<String>,
+    #[serde(rename = "startDate")]
+    pub aixm_start_date: Option<AixmNilableString>,
+    #[serde(rename = "endDate")]
+    pub aixm_end_date: Option<AixmNilableString>,
+    #[serde(rename = "day")]
+    pub aixm_day: Option<String>,
+    #[serde(rename = "dayTil")]
+    pub aixm_day_til: Option<String>,
+    #[serde(rename = "daylightSavingAdjust")]
+    pub aixm_daylight_saving_adjust: Option<String>,
+    #[serde(rename = "startTime")]
+    pub aixm_start_time: Option<String>,
+    #[serde(rename = "startEvent")]
+    pub aixm_start_event: Option<AixmNilableString>,
+    #[serde(rename = "startEventInterpretation")]
+    pub aixm_start_event_interpretation: Option<String>,
+    #[serde(rename = "startTimeRelativeEvent")]
+    pub aixm_start_time_relative_event: Option<String>,
+    #[serde(rename = "endTime")]
+    pub aixm_end_time: Option<String>,
+    #[serde(rename = "endEvent")]
+    pub aixm_end_event: Option<AixmNilableString>,
+    #[serde(rename = "endEventInterpretation")]
+    pub aixm_end_event_interpretation: Option<String>,
+    #[serde(rename = "endTimeRelativeEvent")]
+    pub aixm_end_time_relative_event: Option<String>,
+    #[serde(rename = "excluded")]
+    pub aixm_excluded: Option<String>,
+    #[serde(rename = "annotation", default)]
+    pub aixm_annotation: Vec<AixmAnnotation>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmNilableString {
+    #[serde(rename = "@nil")]
+    pub xsi_nil: Option<String>,
+    #[serde(rename = "@nilReason")]
+    pub nil_reason: Option<String>,
+    #[serde(rename = "$text")]
+    pub value: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceWidth {
+    #[serde(rename = "@uom")]
+    pub uom: Option<String>,
+    #[serde(rename = "@nil")]
+    pub xsi_nil: Option<String>,
+    #[serde(rename = "@nilReason")]
+    pub nil_reason: Option<String>,
+    #[serde(rename = "$text")]
+    pub value: Option<f64>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmContributorAirspace {
+    #[serde(rename = "AirspaceVolumeDependency")]
+    pub aixm_airspace_volume_dependency: AixmAirspaceVolumeDependency,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmAirspaceVolumeDependency {
+    #[serde(rename = "@id")]
+    pub gml_id: String,
+    #[serde(rename = "dependency")]
+    pub aixm_dependency: String,
+    #[serde(rename = "theAirspace")]
+    pub aixm_the_airspace: AixmTheAirspaceRef,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AixmTheAirspaceRef {
+    #[serde(rename = "@href")]
+    pub xlink_href: String,
+    #[serde(rename = "@title")]
+    pub xlink_title: Option<String>,
 }
