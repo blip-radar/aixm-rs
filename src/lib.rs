@@ -455,7 +455,7 @@ pub struct AixmRdh {
     #[serde(rename = "@uom")]
     pub uom: String,
     #[serde(rename = "$text")]
-    pub value: u32,
+    pub value: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
