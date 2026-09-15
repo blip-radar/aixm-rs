@@ -30,8 +30,6 @@ print_stdout = "warn"
 allow_attributes = "warn"
 allow_attributes_without_reason = "warn"
 
-string_to_string = "warn"
-
 undocumented_unsafe_blocks = "warn"
 
 too_long_first_doc_paragraph = "warn"
