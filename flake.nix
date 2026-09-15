@@ -73,7 +73,7 @@
             settings = {
               formatter = {
                 nix = {
-                  command = pkgs.nixfmt-rfc-style;
+                  command = pkgs.nixfmt;
                   includes = [ "*.nix" ];
                 };
                 rustfmt = {
